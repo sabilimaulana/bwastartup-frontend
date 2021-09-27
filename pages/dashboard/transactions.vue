@@ -11,35 +11,22 @@
           <h2 class="text-4xl text-gray-900 mb-2 font-medium">Dashboard</h2>
           <ul class="flex mt-2">
             <li class="mr-6">
-              <a class="text-gray-800 font-bold" href="#"> Your Projects </a>
+              <nuxt-link
+                class="text-gray-500 hover:text-gray-800"
+                to="/dashboard"
+              >
+                Your Projects
+              </nuxt-link>
             </li>
             <li class="mr-6">
               <nuxt-link
-                class="text-gray-500 hover:text-gray-800"
+                class="text-gray-800 font-bold"
                 to="/dashboard/transactions"
               >
                 Your Transactions
               </nuxt-link>
             </li>
           </ul>
-        </div>
-        <div class="w-1/4 text-right">
-          <a
-            href="/dashboard/create.html"
-            class="
-              bg-orange-button
-              hover:bg-green-button
-              text-white
-              font-bold
-              py-4
-              px-4
-              rounded
-              inline-flex
-              items-center
-            "
-          >
-            + Create Campaign
-          </a>
         </div>
       </div>
       <hr />
@@ -56,12 +43,11 @@
               text-center
               overflow-hidden
             "
-            style="
-              background-image: url('https://tailwindcss.com/img/card-left.jpg');
-            "
+            style="background-color: #bbb"
           ></div>
           <div
             class="
+              w-full
               border-r border-b border-l border-gray-400
               lg:border-l-0 lg:border-t lg:border-gray-400
               bg-white
@@ -73,27 +59,13 @@
               leading-normal
             "
           >
-            <div class="mb-8">
+            <div>
               <div class="text-gray-900 font-bold text-xl mb-1">
                 Cari Uang Buat Gunpla
               </div>
               <p class="text-sm text-gray-600 flex items-center mb-2">
-                Rp. 200.000.000 &middot; 80%
+                Rp. 200.000.000 &middot; 12 September 2020
               </p>
-              <p class="text-gray-700 text-base">
-                With N-key rollover (NKRO on wired mode only) you can register
-                as many keys as you can press at once without missing out
-                characters. It allows to use all the same media keys as
-                conventional macOS.
-              </p>
-            </div>
-            <div class="flex items-center">
-              <nuxt-link
-                :to="`/dashboard/projects/${i}`"
-                class="bg-green-button text-white py-2 px-4 rounded"
-              >
-                Detail
-              </nuxt-link>
             </div>
           </div>
         </div>
