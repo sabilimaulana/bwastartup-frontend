@@ -78,7 +78,7 @@
                 </li>
               </ul>
               <p class="text-sm font-bold flex items-center mb-1 mt-4">Price</p>
-              <p class="text-4xl text-gray-700 text-base">200.000</p>
+              <p class="text-4xl text-gray-700">200.000</p>
             </div>
           </div>
         </div>

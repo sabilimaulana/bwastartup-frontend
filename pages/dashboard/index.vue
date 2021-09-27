@@ -24,8 +24,8 @@
           </ul>
         </div>
         <div class="w-1/4 text-right">
-          <a
-            href="/dashboard/create.html"
+          <nuxt-link
+            to="/dashboard/projects/create"
             class="
               bg-orange-button
               hover:bg-green-button
@@ -39,7 +39,7 @@
             "
           >
             + Create Campaign
-          </a>
+          </nuxt-link>
         </div>
       </div>
       <hr />
