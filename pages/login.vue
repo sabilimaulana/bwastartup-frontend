@@ -32,7 +32,7 @@
                 focus:text-gray-100
               "
               placeholder="Write your email address here"
-              value="julia.keeva@gmail.com"
+              v-model="login.email"
             />
           </div>
         </div>
@@ -52,14 +52,15 @@
                 focus:text-gray-100
               "
               placeholder="Write your password here"
-              value="nasigorenglimaribbu"
+              v-model="login.password"
+              @keyup.enter="userLogin"
             />
           </div>
         </div>
         <div class="mb-6">
           <div class="mb-4">
             <button
-              @click="$router.push({ path: '/' })"
+              @click="userLogin"
               class="
                 block
                 w-full
