@@ -50,7 +50,13 @@
             <div class="flex mt-3">
               <div class="w-1/4">
                 <img
-                  src="/testimonial-1-icon.png"
+                  :src="
+                    campaign.data.user.image_url
+                      ? $axios.defaults.baseURL +
+                        '/' +
+                        campaign.data.user.image_url
+                      : '/avatar.jpg'
+                  "
                   alt=""
                   class="w-full inline-block rounded-full"
                 />
@@ -71,45 +77,71 @@
                 {{ perk }}
               </li>
             </ul>
-            <input
-              type="number"
-              class="
-                border border-gray-500
-                block
-                w-full
-                px-6
-                py-3
-                mt-4
-                rounded-full
-                text-gray-800
-                transition
-                duration-300
-                ease-in-out
-                focus:outline-none focus:shadow-outline
-              "
-              placeholder="Amount in Rp"
-              value=""
-            />
-            <nuxt-link
-              to="/fund-success"
-              class="
-                text-center
-                mt-3
-                button-cta
-                block
-                w-full
-                bg-orange-button
-                hover:bg-green-button
-                text-white
-                font-medium
-                px-6
-                py-3
-                text-md
-                rounded-full
-              "
-            >
-              Fund Now
-            </nuxt-link>
+            <template v-if="this.$auth.loggedIn">
+              <input
+                type="number"
+                class="
+                  border border-gray-500
+                  block
+                  w-full
+                  px-6
+                  py-3
+                  mt-4
+                  rounded-full
+                  text-gray-800
+                  transition
+                  duration-300
+                  ease-in-out
+                  focus:outline-none focus:shadow-outline
+                "
+                placeholder="Amount in Rp"
+                v-model.number="transactions.amount"
+                @keyup.enter="fund"
+              />
+              <button
+                @click="fund"
+                class="
+                  text-center
+                  mt-3
+                  button-cta
+                  block
+                  w-full
+                  bg-orange-button
+                  hover:bg-green-button
+                  text-white
+                  font-medium
+                  px-6
+                  py-3
+                  text-md
+                  rounded-full
+                "
+              >
+                Fund Now
+              </button>
+              <p class="text-sm text-center mt-2 text-red-800">{{ warning }}</p>
+            </template>
+            <template v-else>
+              <button
+                @click="$router.push({ path: '/login' })"
+                class="
+                  text-center
+                  mt-3
+                  button-cta
+                  block
+                  w-full
+                  bg-orange-button
+                  hover:bg-green-button
+                  text-white
+                  font-medium
+                  px-6
+                  py-3
+                  text-md
+                  rounded-full
+                "
+              >
+                Sign in to Fund
+              </button>
+            </template>
           </div>
         </div>
       </div>
@@ -195,11 +227,35 @@ export default {
   data() {
     return {
       default_image: '',
+      transactions: {
+        amount: 0,
+        campaign_id: Number.parseInt(this.$route.params.id),
+      },
+      warning: '',
     }
   },
   methods: {
     changeImage(url) {
       this.default_image = url
+    },
+    async fund() {
+      if (this.transactions.amount <= 0) {
+        this.warning = 'Silahkan masukkan amount terlebih dahulu'
+        setInterval(() => (this.warning = ''), 5000)
+        return
+      }
+      this.warning = ''
+      try {
+        let response = await this.$axios.post(
+          '/api/v1/transactions',
+          this.transactions
+        )
+
+        window.location = response.data.data.payment_url
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
   mounted() {
