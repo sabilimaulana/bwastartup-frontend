@@ -3,10 +3,10 @@
     <div class="w-full lg:w-1/3 px-10 lg:px-0">
       <div class="flex justify-center items-center mx-auto mb-4 w-40">
         <div class="relative">
-          <a href="/upload-filled">
+          <div class="cursor-pointer" @click="$refs.file.click()">
             <img
-              src="/avatar.jpg"
-              alt=""
+              :src="url"
+              alt="avatar"
               class="rounded-full border-white border-4"
             />
             <img
@@ -14,17 +14,28 @@
               alt=""
               class="absolute right-0 bottom-0 pb-2"
             />
-          </a>
+            <input
+              type="file"
+              ref="file"
+              style="display: none"
+              accept="image/*"
+              @change="onFileChange"
+            />
+          </div>
         </div>
       </div>
       <h2 class="font-normal mb-3 text-3xl text-white text-center">
-        Hi, Julia
+        Hi, {{ this.$auth.user.name }}
       </h2>
       <p class="text-white text-center font-light">Please upload your selfie</p>
       <div class="mb-4 mt-6">
         <div class="mb-3">
           <button
-            @click="$router.push({ path: '/register-success' })"
+            :disabled="selectedFiles == undefined"
+            @click="upload"
+            :class="
+              selectedFiles == undefined && 'opacity-50 cursor-not-allowed'
+            "
             class="
               block
               w-full
@@ -73,7 +84,7 @@ export default {
   layout: 'auth',
   data() {
     return {
-      url: '/upload.jpg',
+      url: '/avatar.jpg',
       selectedFiles: undefined,
     }
   },
