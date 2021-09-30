@@ -16,8 +16,8 @@
           <h3 class="text-2xl text-gray-900 mb-4">Create New Projects</h3>
         </div>
         <div class="w-1/4 text-right">
-          <a
-            href="/dashboard/detail.html"
+          <button
+            @click="save"
             class="
               bg-green-button
               hover:bg-green-button
@@ -31,7 +31,7 @@
             "
           >
             Save
-          </a>
+          </button>
         </div>
       </div>
       <div class="block mb-2">
@@ -64,6 +64,7 @@
                     Campaign Name
                   </label>
                   <input
+                    v-model="campaign.name"
                     class="
                       appearance-none
                       block
@@ -95,6 +96,7 @@
                     Price
                   </label>
                   <input
+                    v-model.number="campaign.goal_amount"
                     class="
                       appearance-none
                       block
@@ -127,6 +129,7 @@
                     Short Description
                   </label>
                   <input
+                    v-model="campaign.short_description"
                     class="
                       appearance-none
                       block
@@ -159,6 +162,7 @@
                     What will backers get
                   </label>
                   <input
+                    v-model="campaign.perks"
                     class="
                       appearance-none
                       block
@@ -191,6 +195,7 @@
                     Description
                   </label>
                   <textarea
+                    v-model="campaign.description"
                     class="
                       appearance-none
                       block
@@ -220,3 +225,37 @@
     <Footer />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      campaign: {
+        name: '',
+        short_description: '',
+        description: '',
+        goal_amount: 0,
+        perks: '',
+      },
+    }
+  },
+  methods: {
+    async save() {
+      try {
+        const response = await this.$axios.$post(
+          '/api/v1/campaigns',
+          this.campaign
+        )
+        this.$router.push({
+          name: 'dashboard-projects-id',
+          params: { id: response.data.id },
+        })
+
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+  },
+}
+</script>
