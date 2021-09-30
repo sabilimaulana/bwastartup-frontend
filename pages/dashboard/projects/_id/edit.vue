@@ -13,7 +13,7 @@
       </div>
       <div class="flex justify-between items-center">
         <div class="w-3/4 mr-6">
-          <h3 class="text-2xl text-gray-900 mb-4">Create New Projects</h3>
+          <h3 class="text-2xl text-gray-900 mb-4">Edit Projects</h3>
         </div>
         <div class="w-1/4 text-right">
           <button
