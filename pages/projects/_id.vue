@@ -244,7 +244,7 @@ export default {
         setInterval(() => (this.warning = ''), 5000)
         return
       }
-      this.warning = ''
+
       try {
         let response = await this.$axios.post(
           '/api/v1/transactions',
