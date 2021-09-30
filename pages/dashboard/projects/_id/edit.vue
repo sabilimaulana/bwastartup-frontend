@@ -64,7 +64,7 @@
                     Campaign Name
                   </label>
                   <input
-                    v-model="campaign.name"
+                    v-model="campaign.data.name"
                     class="
                       appearance-none
                       block
@@ -96,7 +96,7 @@
                     Price
                   </label>
                   <input
-                    v-model.number="campaign.goal_amount"
+                    v-model.number="campaign.data.goal_amount"
                     class="
                       appearance-none
                       block
@@ -129,7 +129,7 @@
                     Short Description
                   </label>
                   <input
-                    v-model="campaign.short_description"
+                    v-model="campaign.data.short_description"
                     class="
                       appearance-none
                       block
@@ -162,7 +162,7 @@
                     What will backers get
                   </label>
                   <input
-                    v-model="campaign.perks"
+                    v-model="campaign.data.perks"
                     class="
                       appearance-none
                       block
@@ -195,7 +195,7 @@
                     Description
                   </label>
                   <textarea
-                    v-model="campaign.description"
+                    v-model="campaign.data.description"
                     class="
                       appearance-none
                       block
@@ -228,28 +228,34 @@
 
 <script>
 export default {
-  data() {
-    return {
-      campaign: {
-        name: '',
-        short_description: '',
-        description: '',
-        goal_amount: 0,
-        perks: '',
-      },
-    }
+  middleware: 'auth',
+  async asyncData({ $axios, params }) {
+    const campaign = await $axios.$get('/api/v1/campaigns/' + params.id)
+
+    let stringPerks = ''
+
+    campaign.data.perks.forEach((perk) =>
+      stringPerks
+        ? (stringPerks = stringPerks + ', ' + perk)
+        : (stringPerks = stringPerks + perk)
+    )
+    campaign.data.perks = stringPerks
+
+    return { campaign }
   },
   methods: {
     async save() {
       try {
-        const response = await this.$axios.$post(
-          '/api/v1/campaigns',
-          this.campaign
+        const response = await this.$axios.$put(
+          '/api/v1/campaigns/' + this.$route.params.id,
+          {
+            name: this.campaign.data.name,
+            short_description: this.campaign.data.short_description,
+            description: this.campaign.data.description,
+            goal_amount: this.campaign.data.goal_amount,
+            perks: this.campaign.data.perks,
+          }
         )
-        this.$router.push({
-          name: 'dashboard-projects-id',
-          params: { id: response.data.id },
-        })
 
         console.log(response)
       } catch (error) {
